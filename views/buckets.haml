@@ -1,0 +1,22 @@
+%h2 bucketの一覧と作成
+
+%h3 bucketの一覧
+- if @buckets.empty?
+  %p bucketがありません
+- else
+  %ul
+    - for bucket in @buckets
+      %li=bucket
+
+%h3 bucketの作成
+- if !@errors.nil? && @errors.any?
+  %ul
+  - for error in @errors
+    %li=error
+    
+%form{:action => '/buckets', :method => 'post'}
+  %fieldset
+    %label{:for => 'bucket'} bucket
+    %input#bucket{:name => 'bucket', :type => 'text'}
+  .buttons
+    %input{:type => 'submit', :value => '作成'}
