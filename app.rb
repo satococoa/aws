@@ -5,7 +5,8 @@ configure do
   ACCESS = config['aws']['access']
   SECRET = config['aws']['secret']
 
-  S3 = RightAws::S3.new(ACCESS, SECRET)
+  # S3 = RightAws::S3.new(ACCESS, SECRET)
+  S3 = RightAws::S3.new(ACCESS, SECRET, :server => 's3-ap-southeast-1.amazonaws.com')
 end
 
 get '/' do
@@ -21,8 +22,8 @@ end
 # 新しいbucketの作成
 post '/buckets' do
   begin
-    bucket = S3.bucket(params[:bucket], true)
-    # bucket = S3.bucket(params[:bucket], true, nil, :location => 'ap-southeast-1')
+    # bucket = S3.bucket(params[:bucket], true)
+    bucket = S3.bucket(params[:bucket], true, nil, :location => 'ap-southeast-1')
   rescue RightAws::AwsError => e
     @errors = []
     @errors << e.message
@@ -45,7 +46,8 @@ post '/bucket/:bucket_name/keys' do |bucket_name|
   begin
     key = @bucket.put(file[:filename], file[:tempfile], {}, 'public-read-write')
   rescue => e
-    pp e
+    @errors = []
+    @errors << e.message
   end
   @keys = @bucket.keys
   haml :keys
