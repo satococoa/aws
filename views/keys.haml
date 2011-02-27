@@ -1,0 +1,23 @@
+%h2 keyの一覧と作成
+
+%h3="#{@bucket}のkeyの一覧"
+- if @keys.empty?
+  %p keyがありません
+- else
+  %ul
+    - for key in @keys
+      %li
+        %a{:href => key.public_link}=key
+
+%h3 keyの作成
+- if !@errors.nil? && @errors.any?
+  %ul
+  - for error in @errors
+    %li=error
+    
+%form{:action => "/bucket/#{@bucket}/keys", :method => 'post', :enctype => 'multipart/form-data'}
+  %fieldset
+    %label{:for => 'object'} ファイル
+    %input#bucket{:name => 'object', :type => 'file'}
+  .buttons
+    %input{:type => 'submit', :value => 'アップロード'}

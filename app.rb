@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'pp'
 configure do
   config = YAML::load_file('config.yml')
   ACCESS = config['aws']['access']
@@ -19,14 +20,32 @@ end
 
 # 新しいbucketの作成
 post '/buckets' do
-  @errors = []
   begin
     bucket = S3.bucket(params[:bucket], true)
-    redirect '/buckets'
   rescue RightAws::AwsError => e
+    @errors = []
     @errors << e.message
-    @buckets = S3.buckets
-    haml :buckets
   end
+  @buckets = S3.buckets
+  haml :buckets
 end
-  
+
+# keyの一覧
+get '/bucket/:bucket_name/keys' do |bucket_name|
+  @bucket = S3.bucket(bucket_name)
+  @keys = @bucket.keys
+  haml :keys
+end
+
+# ファイルアップロード
+post '/bucket/:bucket_name/keys' do |bucket_name|
+  @bucket = S3.bucket(bucket_name)
+  file = params[:object]
+  begin
+    key = @bucket.put(file[:filename], file[:tempfile], {}, 'public-read-write')
+  rescue => e
+    pp e
+  end
+  @keys = @bucket.keys
+  haml :keys
+end
