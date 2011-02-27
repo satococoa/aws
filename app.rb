@@ -22,6 +22,7 @@ end
 post '/buckets' do
   begin
     bucket = S3.bucket(params[:bucket], true)
+    # bucket = S3.bucket(params[:bucket], true, nil, :location => 'ap-southeast-1')
   rescue RightAws::AwsError => e
     @errors = []
     @errors << e.message
