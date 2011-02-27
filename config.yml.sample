@@ -1,0 +1,6 @@
+aws:
+  access: 'your aws access key'
+  secret: 'your aws access secret'
+s3:
+  bucket: 'your bucket name'
+  thumbs: 'your bucket for thums name'
