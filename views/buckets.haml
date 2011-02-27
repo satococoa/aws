@@ -6,8 +6,9 @@
 - else
   %ul
     - for bucket in @buckets
-      %li
-        %a{:href => "/bucket/#{bucket}/keys"}=bucket
+      - if bucket.name !~ /-thumb$/
+        %li
+          %a{:href => "/bucket/#{bucket.name}/keys"}=bucket.name
 
 %h3 bucketの作成
 - if !@errors.nil? && @errors.any?
