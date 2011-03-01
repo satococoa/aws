@@ -13,11 +13,11 @@
       %tr
         %th
           -if key.content_type =~ %r!image/!
-            %img{:src => @thumbs[key.name] }
+            %img{:src => "http://#{@thumbs_dist[:domain_name]}/#{@thumbs[key.name].name}"}
           -else
             N/A
         %th
-          %a{:href => key.public_link}=key
+          %a{:href => "http://#{@dist[:domain_name]}/#{key.name}"}=key
         %th="#{number_format(key.size)} byte"
 
 %h3 keyの作成
