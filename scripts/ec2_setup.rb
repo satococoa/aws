@@ -12,7 +12,7 @@ ec2 = RightAws::Ec2.new(ACCESS, SECRET, :region => 'ap-northeast-1')
 
 # EC2立ち上げ
 instances = ec2.run_instances('ami-8e08a38f', 1, 1, ['default'],
-                             "Satoshi's Keys",'from ruby script', nil, 't1.micro')
+                             "Satoshi's Keys",'', nil, 't1.micro')
 
 # インスタンスIDとインスタンスのアベイラビリティゾーンを取得
 instance_id = instances[0][:aws_instance_id]
